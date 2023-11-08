@@ -62,6 +62,21 @@ class BME68xDev(ctypes.Structure):
     ]
 
 
+class BME68xData(ctypes.Structure):
+    _fields_ = [
+        ("status", ctypes.c_uint8),
+        ("gas_index", ctypes.c_uint8),
+        ("meas_index", ctypes.c_uint8),
+        ("res_heat", ctypes.c_uint8),
+        ("idac", ctypes.c_uint8),
+        ("gas_wait", ctypes.c_uint8),
+        ("temperature", ctypes.c_float),
+        ("pressure", ctypes.c_float),
+        ("humidity", ctypes.c_float),
+        ("gas_resistance", ctypes.c_float)
+    ]
+
+
 class I2CConfig(ctypes.Structure):
     _fields_ = [("bus", ctypes.c_uint8),
                 ("address", ctypes.c_uint8)]
@@ -164,7 +179,10 @@ def main():
 
     klipper_bm68x.sensor_init(i2c_write, i2c_read, sleep_us, ctypes.pointer(sensor))
 
-    print(sensor.bme68x_dev.contents.chip_id)
+    data = BME68xData()
+    klipper_bm68x.get_data(ctypes.pointer(data), ctypes.pointer(sensor))
+
+    print(data.temperature)
 
 
 if __name__ == "__main__":
