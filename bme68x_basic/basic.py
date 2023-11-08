@@ -182,7 +182,16 @@ def main():
     data = BME68xData()
     klipper_bm68x.get_data(ctypes.pointer(data), ctypes.pointer(sensor))
 
-    print(data.temperature)
+    print(f"Status: {data.status}")
+    print(f"Gas Index: {data.gas_index}")
+    print(f"Measurement Index: {data.meas_index}")
+    print(f"Res Heat: {data.res_heat}")
+    print(f"IDAC: {data.idac}")
+    print(f"Gas Wait: {data.gas_wait}")
+    print(f"Temperature: {data.temperature} °C")
+    print(f"Pressure: {data.pressure} Pa")
+    print(f"Humidity: {data.humidity} %")
+    print(f"Gas Resistance: {data.gas_resistance} Ohms")
 
 
 if __name__ == "__main__":
