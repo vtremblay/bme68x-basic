@@ -159,11 +159,11 @@ def main():
     sensor = Sensor(
         sensor=sensor_config,
         heater=heater_config,
-        interface_settings=ctypes.cast(ctypes.byref(i2c_config), ctypes.c_void_p),
+        interface_settings=ctypes.cast(ctypes.pointer(i2c_config), ctypes.c_void_p),
         bme68x_dev=BME68xDev()
     )
 
-    klipper_bm68x.sensor_init(i2c_write, i2c_read, sleep_us, sensor)
+    klipper_bm68x.sensor_init(i2c_write, i2c_read, sleep_us, ctypes.pointer(sensor))
 
 
 if __name__ == "__main__":
