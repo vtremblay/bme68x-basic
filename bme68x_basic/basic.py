@@ -93,13 +93,25 @@ class Sensor(ctypes.Structure):
                 ("interface_settings", ctypes.c_void_p),
                 ("bme68x_dev", BME68xDev)]
 
-@ctypes.CFUNCTYPE(
+
+bme68x_read_fptr_t = ctypes.CFUNCTYPE(
     BME68X_INTF_RET_TYPE,
     ctypes.c_uint8,
     ctypes.POINTER(ctypes.c_uint8),
     ctypes.c_uint32,
     ctypes.c_void_p
 )
+bme68x_write_fptr_t = ctypes.CFUNCTYPE(
+    BME68X_INTF_RET_TYPE,
+    ctypes.c_uint8,
+    ctypes.POINTER(ctypes.c_uint8),
+    ctypes.c_uint32,
+    ctypes.c_void_p
+)
+bme68x_delay_us_fptr_t = ctypes.CFUNCTYPE(None, ctypes.c_uint32, ctypes.c_void_p)
+
+
+@bme68x_read_fptr_t
 def i2c_read(reg_addr, reg_data, data_len, intf_ptr):
     i2c_config = ctypes.cast(intf_ptr, ctypes.POINTER(I2CConfig))
 
@@ -114,13 +126,7 @@ def i2c_read(reg_addr, reg_data, data_len, intf_ptr):
     return 0
 
 
-@ctypes.CFUNCTYPE(
-    BME68X_INTF_RET_TYPE,
-    ctypes.c_uint8,
-    ctypes.POINTER(ctypes.c_uint8),
-    ctypes.c_uint32,
-    ctypes.c_void_p
-)
+@bme68x_write_fptr_t
 def i2c_write(reg_addr, reg_data, data_len, intf_ptr):
     i2c_config = ctypes.cast(intf_ptr, ctypes.POINTER(I2CConfig))
 
@@ -130,7 +136,7 @@ def i2c_write(reg_addr, reg_data, data_len, intf_ptr):
     return 0
 
 
-@ctypes.CFUNCTYPE(None, ctypes.c_uint32, ctypes.c_void_p)
+@bme68x_delay_us_fptr_t
 def sleep_us(microseconds, intf_ptr):
     seconds = microseconds / 1e6  # Convert microseconds to seconds
     time.sleep(seconds)
