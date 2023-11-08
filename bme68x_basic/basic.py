@@ -164,6 +164,8 @@ def main():
 
     klipper_bm68x.sensor_init(i2c_write, i2c_read, sleep_us, ctypes.pointer(sensor))
 
+    print(sensor.bme68x_dev.contents.chip_id)
+
 
 if __name__ == "__main__":
     main()
