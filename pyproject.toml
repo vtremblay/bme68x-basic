@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "bme68x-basic"
+version = "0.1.0"
+description = ""
+authors = ["Vincent Tremblay <vincent@vtremblay.dev>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+smbus2 = "^0.4.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
