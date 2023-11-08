@@ -128,8 +128,9 @@ def i2c_read(reg_addr, reg_data, data_len, intf_ptr):
 def i2c_write(reg_addr, reg_data, data_len, intf_ptr):
     i2c_config = ctypes.cast(intf_ptr, ctypes.POINTER(I2CConfig))
 
+    data = [reg_data[i] for i in range(data_len)]
     with SMBus(i2c_config.contents.bus) as bus:
-        bus.write_i2c_block_data(i2c_config.contents.address, reg_addr, reg_data)
+        bus.write_i2c_block_data(i2c_config.contents.address, reg_addr, data)
 
     return 0
 
