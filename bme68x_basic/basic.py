@@ -153,7 +153,7 @@ def main():
     sensor = Sensor(
         sensor=sensor_config,
         heater=heater_config,
-        interface_settings=i2c_config,
+        interface_settings=ctypes.cast(i2c_config, ctypes.c_void_p),
         bme68x_dev=BME68xDev()
     )
 
