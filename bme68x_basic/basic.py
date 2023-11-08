@@ -3,7 +3,7 @@ import time
 
 from smbus2 import SMBus
 
-klipper_bm68x = ctypes.CDLL('klipper_bm68x.so')
+klipper_bm68x = ctypes.CDLL('/tmp/tmp.4bR0oZpBAF/cmake-build-debug---rpi-builder/libklipper_bm68x.so')
 klipper_bm68x.sensor_init.argtypes = (ctypes.c_int, ctypes.POINTER(ctypes.c_int))
 
 
