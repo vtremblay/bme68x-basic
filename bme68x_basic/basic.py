@@ -88,10 +88,10 @@ class HeaterConfig(ctypes.Structure):
 
 
 class Sensor(ctypes.Structure):
-    _fields_ = [("sensor", SensorConfig),
-                ("heater", HeaterConfig),
+    _fields_ = [("sensor", ctypes.POINTER(SensorConfig)),
+                ("heater", ctypes.POINTER(HeaterConfig)),
                 ("interface_settings", ctypes.c_void_p),
-                ("bme68x_dev", BME68xDev)]
+                ("bme68x_dev", ctypes.POINTER(BME68xDev))]
 
 
 bme68x_read_fptr_t = ctypes.CFUNCTYPE(
@@ -157,10 +157,10 @@ def main():
     )
     i2c_config = I2CConfig(bus=1, address=0x77)
     sensor = Sensor(
-        sensor=sensor_config,
-        heater=heater_config,
+        sensor=ctypes.pointer(sensor_config),
+        heater=ctypes.pointer(heater_config),
         interface_settings=ctypes.cast(ctypes.pointer(i2c_config), ctypes.c_void_p),
-        bme68x_dev=BME68xDev()
+        bme68x_dev=ctypes.pointer(BME68xDev())
     )
 
     klipper_bm68x.sensor_init(i2c_write, i2c_read, sleep_us, ctypes.pointer(sensor))
