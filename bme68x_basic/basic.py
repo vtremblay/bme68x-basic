@@ -193,6 +193,22 @@ def main():
     print(f"Humidity: {data.humidity} %")
     print(f"Gas Resistance: {data.gas_resistance} Ohms")
 
+    status = data.status
+
+    # Check if the "New Data" bit is set
+    new_data_bit = (status & 0x01) == 0x01
+
+    # Check if the "GASM Valid" bit is set
+    gasm_valid_bit = (status & 0x02) == 0x02
+
+    # Check if the "Heater Stabilization" bit is set
+    heater_stabilization_bit = (status & 0x04) == 0x04
+
+    # Print the interpretation
+    print(f"New Data: {new_data_bit}")
+    print(f"GASM Valid: {gasm_valid_bit}")
+    print(f"Heater Stabilization: {heater_stabilization_bit}")
+
 
 if __name__ == "__main__":
     main()
