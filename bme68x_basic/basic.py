@@ -163,7 +163,7 @@ def main():
         bme68x_dev=BME68xDev()
     )
 
-    klipper_bm68x.sensor_init(i2c_write, i2c_read, sleep_us, ctypes.byref(sensor))
+    klipper_bm68x.sensor_init(bme68x_write_fptr_t(i2c_write), i2c_read, sleep_us, ctypes.byref(sensor))
 
 
 if __name__ == "__main__":
